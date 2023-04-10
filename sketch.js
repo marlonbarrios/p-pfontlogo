@@ -8,7 +8,9 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   fillColor = color(0);
   colorPicker = createColorPicker(fillColor);
-  colorPicker.position(10, 10);
+  colorPicker.position(10,5);
+
+
 }
 
 function windowResized() {
@@ -16,12 +18,23 @@ function windowResized() {
 }
 
 function draw() {
+
+
   fillColor = colorPicker.color();
   if (transparency) {
     background(255, 2);
   } else {
     background(255);
   }
+  textSize(12);
+  textAlign(LEFT, TOP);
+  textFont('Helvetica');
+  stroke(100);
+  text('Press SPACE to toggle rotation on and off', 10, 40);
+  text('Press t to toggle traces', 10, 60);
+  text('Press i to toggle the left circle', 10, 80);
+  text('Press s to save a png image', 10, 100);
+  // text('Press c to toggle consulting text in and off', 10, 100);
 
   let rectHeight = windowHeight / 3; // Rectangle height is 1/3 of the window height
   let rectWidth = rectHeight / 2;
@@ -98,5 +111,8 @@ function keyPressed() {
 
   if (key === 'c' || key === 'C') {
     showConsultingText = !showConsultingText;
+  }
+  if (key === 's' || key === 'S') {
+    saveCanvas('logo', 'png');
   }
 }
