@@ -45,9 +45,9 @@ function draw() {
   } else {
     translate(startX, (windowHeight - rectHeight) / 2);
   }
-  rotate(-rotation);
+  rotate(rotation);
   fill(fillColor);
-  arc(0, 0, arcSize, arcSize, PI / 2, 3 * PI / 2);
+  arc(0, 0, arcSize, arcSize, 3 * PI / 2, 5 * PI / 2);
   noFill();
   stroke(fillColor)
   circle(0, 0, arcSize);
@@ -56,7 +56,7 @@ function draw() {
   // Draw top-right semicircle
   push();
   translate(startX + 2 * rectWidth + spacing, (windowHeight - rectHeight) / 2);
-  rotate(-rotation);
+  rotate(rotation);
   fill(fillColor);
   arc(0, 0, arcSize, arcSize, 3 * PI / 2, 5 * PI / 2);
   noFill();
@@ -68,7 +68,9 @@ function draw() {
   textSize(rectHeight / 1);
   textAlign(CENTER, CENTER);
   textFont('Helvetica');
-  fill(fillColor);
+  noFill();
+  stroke(fillColor)
+  // fill(fillColor);
   text('+', windowWidth / 2, windowHeight / 2 + rectHeight / 6);
 
   if (showConsultingText) {
