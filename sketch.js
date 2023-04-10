@@ -45,7 +45,7 @@ function draw() {
   } else {
     translate(startX, (windowHeight - rectHeight) / 2);
   }
-  rotate(rotation);
+  rotate(-rotation);
   fill(fillColor);
   arc(0, 0, arcSize, arcSize, 3 * PI / 2, 5 * PI / 2);
   noFill();
