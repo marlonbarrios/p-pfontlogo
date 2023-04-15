@@ -4,9 +4,12 @@ let semiCircleDegrees = 200;
 let numSemiCircles = 15;
 let rotationSpeed = 0.001; // Speed of rotation
 let rotationAngle = 0; // Accumulated rotation angle
+let colorPicker; // Color picker for semi-circles
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  colorPicker = createColorPicker(154,152,152); // Create color picker with default color red
+  colorPicker.position(10, 10); // Position the color picker
 }
 
 function windowResized() {
@@ -29,13 +32,13 @@ function draw() {
   rotationAngle += rotationSpeed;
 
   // Map mouseY to the number of concentric arcs (12 to 60)
-  numSemiCircles = round(map(mouseY, height/3, height, 12, 60));
+  numSemiCircles = round(map(mouseY, height / 3, height, 12, 60));
 
   // Draw semi-circles
   push(); // Isolate translation for the arcs
   translate(mouseX, mouseY); // Use mouse coordinates as center
+  stroke(colorPicker.color()); // Set stroke color based on color picker value
   for (let i = 1; i <= numSemiCircles; i++) {
-    stroke(160);
     noFill();
     push();
     rotate(rotationAngle * i);
@@ -45,8 +48,8 @@ function draw() {
   pop(); // End isolation
 
   // Draw rectangles
-  fill(218,165,32);
-  stroke(218,165,32);
+  fill(218, 165, 32);
+  stroke(218, 165, 32);
   rect(startX, (windowHeight - rectHeight) / 2, rectWidth, rectHeight);
   rect(startX + rectWidth + spacing, (windowHeight - rectHeight) / 2, rectWidth, rectHeight);
 
@@ -71,40 +74,40 @@ function draw() {
   pop();
 
   // Draw plus "+" in the center
+ 
   textSize((rectHeight + 3) * scaleFactor * 1.5);
   textAlign(CENTER, CENTER);
   textFont('Helvetica');
   fill(0);
   text('+', windowWidth / 2 + spacing / 2, windowHeight / 2 + (rectHeight / 2) * scaleFactor);
-}
-
-function drawSemiCircle(radius, x = 0 
-  , y = 0) {
-    let weight = map(radius, 0, 12 * numSemiCircles, 1, 6);
-    strokeWeight(weight);
-    arc(0, 0, radius * 2, radius * 1, 0, semiCircleDegrees);
-    }
-    
-    function keyPressed() {
-    if (key === ' ') {
-    rotationEnabled = !rotationEnabled;
-    }
-    if (key === 'i' || key === 'I') {
-    toggleLeftArc = !toggleLeftArc;
-    }
-    if (key === 's' || key === 'S') {
-    saveCanvas('logo', 'png');
-    }
-    }
-    
-    // Additional function to handle mouse movement
-    function mouseMoved() {
-    // Check mouse position and set rotation speed and direction
-    if (mouseX > windowWidth / 2 + 10) {
-    rotationSpeed = map(mouseX, windowWidth / 2, windowWidth, 0, 0.005); // Rotate clockwise
-    } else if (mouseX < windowWidth / 2 - 10) {
-    rotationSpeed = map(mouseX, 0, windowWidth / 2, -0.005, 0); // Rotate counter-clockwise
-    } else {
-    rotationSpeed = 0.0001; // Pause rotation
-    }
-    }
+  }
+  
+  function drawSemiCircle(radius, x = 0, y = 0) {
+  let weight = map(radius, 0, 12 * numSemiCircles, 1, 6);
+  strokeWeight(weight);
+  arc(0, 0, radius * 2, radius * 1, 0, semiCircleDegrees);
+  }
+  
+  function keyPressed() {
+  if (key === ' ') {
+  rotationEnabled = !rotationEnabled;
+  }
+  if (key === 'i' || key === 'I') {
+  toggleLeftArc = !toggleLeftArc;
+  }
+  if (key === 's' || key === 'S') {
+  saveCanvas('logo', 'png');
+  }
+  }
+  
+  // Additional function to handle mouse movement
+  function mouseMoved() {
+  // Check mouse position and set rotation speed and direction
+  if (mouseX > windowWidth / 2 + 10) {
+  rotationSpeed = map(mouseX, windowWidth / 2, windowWidth, 0, 0.005); // Rotate clockwise
+  } else if (mouseX < windowWidth / 2 - 10) {
+  rotationSpeed = map(mouseX, 0, windowWidth / 2, -0.005, 0); // Rotate counter-clockwise
+  } else {
+  rotationSpeed = 0.0001; // Pause rotation
+  }
+  }
