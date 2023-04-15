@@ -1,16 +1,12 @@
 let rotationEnabled = false;
-let transparency = false;
 let toggleLeftArc = true;
-let showConsultingText = true;
-let fillColor;
+let semiCircleDegrees = 200;
+let numSemiCircles = 15;
+let rotationSpeed = 0.001; // Speed of rotation
+let rotationAngle = 0; // Accumulated rotation angle
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  fillColor = color(0);
-  colorPicker = createColorPicker(fillColor);
-  colorPicker.position(10,5);
-
-
 }
 
 function windowResized() {
@@ -18,101 +14,97 @@ function windowResized() {
 }
 
 function draw() {
+  // Map mouseX to the transparency of the background (10 to 255)
+  let transparency = map(abs(mouseX - windowWidth / 2), 0, windowWidth / 2, 250, 10);
+  background(250, transparency);
 
-
-  fillColor = colorPicker.color();
-  if (transparency) {
-    background(255, 2);
-  } else {
-    background(255);
-  }
-  textSize(12);
-  textAlign(LEFT, TOP);
-  textFont('Helvetica');
-  stroke(100);
-  text('Press SPACE to toggle rotation on and off', 10, 40);
-  text('Press t to toggle traces', 10, 60);
-  text('Press i to toggle the left circle', 10, 80);
-  text('Press s to save a png image', 10, 100);
-  // text('Press c to toggle consulting text in and off', 10, 100);
-
-  let rectHeight = windowHeight / 3; // Rectangle height is 1/3 of the window height
+  let scaleFactor = 1 / 2;
+  let rectHeight = (windowHeight / 3) * scaleFactor;
   let rectWidth = rectHeight / 2;
-  let spacing = rectWidth; // Spacing between rectangles and semicircles
+  let spacing = rectWidth;
   let arcSize = rectHeight;
+  let startX = (windowWidth - (rectWidth + spacing)) / 2; // Center the rectangles
 
-  let startX = (windowWidth - (1 * rectWidth + 2 * spacing)) / 2; // Center the first rectangle
+  // Update the rotation angle
+  rotationAngle += rotationSpeed;
+
+  // Map mouseY to the number of concentric arcs (12 to 60)
+  numSemiCircles = round(map(mouseY, height/3, height, 12, 60));
+
+  // Draw semi-circles
+  push(); // Isolate translation for the arcs
+  translate(mouseX, mouseY); // Use mouse coordinates as center
+  for (let i = 1; i <= numSemiCircles; i++) {
+    stroke(160);
+    noFill();
+    push();
+    rotate(rotationAngle * i);
+    drawSemiCircle(12 * i);
+    pop();
+  }
+  pop(); // End isolation
 
   // Draw rectangles
-  stroke(fillColor)
-  fill(fillColor);
+  fill(218,165,32);
+  stroke(218,165,32);
   rect(startX, (windowHeight - rectHeight) / 2, rectWidth, rectHeight);
   rect(startX + rectWidth + spacing, (windowHeight - rectHeight) / 2, rectWidth, rectHeight);
 
-  let rotation = rotationEnabled ? frameCount * -0.01 : 0;
-
   // Draw top-left semicircle
   push();
-  if (toggleLeftArc) {
-    translate(startX + rectWidth, (windowHeight - rectHeight) / 2);
-  } else {
-    translate(startX, (windowHeight - rectHeight) / 2);
-  }
-  rotate(-rotation);
-  fill(fillColor);
+  translate(toggleLeftArc ? startX + rectWidth : startX, (windowHeight - rectHeight) / 2);
+  rotate(-rotationAngle);
   arc(0, 0, arcSize, arcSize, 3 * PI / 2, 5 * PI / 2);
   noFill();
-  stroke(fillColor)
+  strokeWeight(4);
   circle(0, 0, arcSize);
   pop();
 
   // Draw top-right semicircle
   push();
   translate(startX + 2 * rectWidth + spacing, (windowHeight - rectHeight) / 2);
-  rotate(rotation);
-  fill(fillColor);
+  rotate(rotationAngle);
   arc(0, 0, arcSize, arcSize, 3 * PI / 2, 5 * PI / 2);
   noFill();
-  stroke(fillColor)
+  strokeWeight(5);
   circle(0, 0, arcSize);
   pop();
 
   // Draw plus "+" in the center
-  textSize(rectHeight / 1);
+  textSize((rectHeight + 3) * scaleFactor * 1.5);
   textAlign(CENTER, CENTER);
   textFont('Helvetica');
-  noFill();
-  stroke(fillColor)
-  // fill(fillColor);
-  text('+', windowWidth / 2, windowHeight / 2 + rectHeight / 6);
-
-  if (showConsultingText) {
-    // Draw "consulting" text below rectangles
-    textSize(rectHeight / 3);
-    textAlign(CENTER, CENTER);
-    textFont('Helvetica');
-    fill(fillColor);
-    text('consulting', windowWidth / 2, (windowHeight + rectHeight) / 2 + rectHeight / 5);
-  }
+  fill(0);
+  text('+', windowWidth / 2 + spacing / 2, windowHeight / 2 + (rectHeight / 2) * scaleFactor);
 }
 
-function keyPressed() {
-  if (key === ' ') {
+function drawSemiCircle(radius, x = 0 
+  , y = 0) {
+    let weight = map(radius, 0, 12 * numSemiCircles, 1, 6);
+    strokeWeight(weight);
+    arc(0, 0, radius * 2, radius * 1, 0, semiCircleDegrees);
+    }
+    
+    function keyPressed() {
+    if (key === ' ') {
     rotationEnabled = !rotationEnabled;
-  }
-  
-  if (key === 't' || key === 'T') {
-    transparency = !transparency;
-  }
-
-  if (key === 'i' || key === 'I') {
+    }
+    if (key === 'i' || key === 'I') {
     toggleLeftArc = !toggleLeftArc;
-  }
-
-  if (key === 'c' || key === 'C') {
-    showConsultingText = !showConsultingText;
-  }
-  if (key === 's' || key === 'S') {
+    }
+    if (key === 's' || key === 'S') {
     saveCanvas('logo', 'png');
-  }
-}
+    }
+    }
+    
+    // Additional function to handle mouse movement
+    function mouseMoved() {
+    // Check mouse position and set rotation speed and direction
+    if (mouseX > windowWidth / 2 + 10) {
+    rotationSpeed = map(mouseX, windowWidth / 2, windowWidth, 0, 0.005); // Rotate clockwise
+    } else if (mouseX < windowWidth / 2 - 10) {
+    rotationSpeed = map(mouseX, 0, windowWidth / 2, -0.005, 0); // Rotate counter-clockwise
+    } else {
+    rotationSpeed = 0.0001; // Pause rotation
+    }
+    }
