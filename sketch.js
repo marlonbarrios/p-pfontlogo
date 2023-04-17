@@ -106,19 +106,16 @@ function draw() {
   fill(218, 165, 32);
   text('+', windowWidth / 2 + spacing / 2, windowHeight / 2 + (rectHeight / 2) * scaleFactor);
    // Draw the circle at the random position
-   fill(154,152,152); // Set the fill color for the circle
+   fill(colorPicker.color()); // Set the fill color for the circle
    noStroke();
    circle(circleX, circleY, 30); // Draw the circle
  noFill()
- stroke(154,152,152)
+ stroke(colorPicker.color())
    circle(circleX, circleY, 50); // Draw the circle
    line(circleX, circleY, mouseX, mouseY)
    fill(218, 165, 32); // Set the fill color for the circle
    noStroke();
    circle(mouseX, mouseY, 30); // Draw the circle
-
-  
-
 
 }
   
