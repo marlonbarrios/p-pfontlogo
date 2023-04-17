@@ -44,7 +44,19 @@ function draw() {
   let startX = (windowWidth - (rectWidth + spacing)) / 2; // Center the rectangles
 
 
- 
+  stroke(218, 165, 32)
+  strokeWeight(1)
+     line(0,mouseY+ 100, windowWidth, mouseY+ 100)
+  
+     line(0,mouseY+ 150, windowWidth, mouseY+150)
+    line(0,mouseY+ 100, windowWidth, mouseY+ 100)
+  
+     line(mouseX+ 80,0, mouseX+ 80, windowHeight)
+     line(mouseX- 80,0, mouseX- 80, windowHeight)
+     line(mouseX,0, mouseX, windowHeight)
+   
+     strokeWeight(4)
+     line(0,mouseY, windowWidth, mouseY)
   // ... (rest of the draw() function)
   // Update the rotation angle
   rotationAngle += rotationSpeed;
@@ -84,7 +96,7 @@ function draw() {
  rotate(-rotationAngle);
  arc(0, 0, arcSize, arcSize, 3 * PI / 2, 5 * PI / 2);
  noFill();
- strokeWeight(5);
+ strokeWeight(3);
  circle(0, 0, arcSize);
  pop();
 
@@ -94,7 +106,7 @@ function draw() {
   rotate(rotationAngle);
   arc(0, 0, arcSize, arcSize, 3 * PI / 2, 5 * PI / 2);
   noFill();
-  strokeWeight(5);
+  strokeWeight(3);
   circle(0, 0, arcSize);
   pop();
 
@@ -118,20 +130,7 @@ function draw() {
    fill(218, 165, 32); // Set the fill color for the circle
    noStroke();
    circle(mouseX, mouseY, 30); // Draw the circle
-stroke(218, 165, 32)
-strokeWeight(1)
-   line(0,mouseY+ 100, windowWidth, mouseY+ 100)
 
-   line(0,mouseY+ 150, windowWidth, mouseY+150)
-  line(0,mouseY+ 100, windowWidth, mouseY+ 100)
-
-   line(mouseX+ 80,0, mouseX+ 80, windowHeight)
-   line(mouseX- 80,0, mouseX- 80, windowHeight)
-   line(mouseX,0, mouseX, windowHeight)
- 
-   strokeWeight(4)
-   line(0,mouseY, windowWidth, mouseY)
-  
  
 
 
