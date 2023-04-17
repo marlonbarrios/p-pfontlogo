@@ -81,12 +81,9 @@ function draw() {
  
 
   // Draw rectangles
+  noStroke();
   fill(218, 165, 32);
-  stroke(218, 165, 32);
   rect(startX, (windowHeight - rectHeight) / 2, rectWidth, rectHeight);
-  fill(0);
-  
-  fill(218, 165, 32);
   rect(startX + rectWidth + spacing, (windowHeight - rectHeight) / 2, rectWidth, rectHeight);
 
  // Draw top-left semicircle
@@ -97,6 +94,7 @@ function draw() {
  arc(0, 0, arcSize, arcSize, 3 * PI / 2, 5 * PI / 2);
  noFill();
  strokeWeight(3);
+
  circle(0, 0, arcSize);
  pop();
 
@@ -107,6 +105,7 @@ function draw() {
   arc(0, 0, arcSize, arcSize, 3 * PI / 2, 5 * PI / 2);
   noFill();
   strokeWeight(3);
+  stroke(218, 165, 32);
   circle(0, 0, arcSize);
   pop();
 
