@@ -5,21 +5,36 @@ let numSemiCircles = 15;
 let rotationSpeed = 0.001; // Speed of rotation
 let rotationAngle = 0; // Accumulated rotation angle
 let colorPicker; // Color picker for semi-circles
+let circleX; // X position of the random circle
+let circleY; // Y position of the random circle
+
+
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  colorPicker = createColorPicker(154,152,152); // Create color picker with default color red
-  colorPicker.position(10, 10); // Position the color picker
+  colorPicker = createColorPicker(154,152,152); // Create color picker for semi-circles
+  colorPicker.position(10, 10); // Position the color picker for semi-circles
+  
+  // Calculate random position for the circle
+  circleX = random(100, width - 200);
+  circleY = random(100, height - 200);
 }
+
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
+
+
 function draw() {
+  // Set background color based on bgColorPicker value
   // Map mouseX to the transparency of the background (10 to 255)
   let transparency = map(abs(mouseX - windowWidth / 2), 0, windowWidth / 2, 250, 10);
-  background(250, transparency);
+  background(0, transparency);
+
+ 
 
   let scaleFactor = 1 / 2;
   let rectHeight = (windowHeight / 3) * scaleFactor;
@@ -28,6 +43,9 @@ function draw() {
   let arcSize = rectHeight;
   let startX = (windowWidth - (rectWidth + spacing)) / 2; // Center the rectangles
 
+
+ 
+  // ... (rest of the draw() function)
   // Update the rotation angle
   rotationAngle += rotationSpeed;
 
@@ -47,21 +65,28 @@ function draw() {
   }
   pop(); // End isolation
 
+
+ 
+
   // Draw rectangles
   fill(218, 165, 32);
   stroke(218, 165, 32);
   rect(startX, (windowHeight - rectHeight) / 2, rectWidth, rectHeight);
+  fill(0);
+  
+  fill(218, 165, 32);
   rect(startX + rectWidth + spacing, (windowHeight - rectHeight) / 2, rectWidth, rectHeight);
 
-  // Draw top-left semicircle
-  push();
-  translate(toggleLeftArc ? startX + rectWidth : startX, (windowHeight - rectHeight) / 2);
-  rotate(-rotationAngle);
-  arc(0, 0, arcSize, arcSize, 3 * PI / 2, 5 * PI / 2);
-  noFill();
-  strokeWeight(4);
-  circle(0, 0, arcSize);
-  pop();
+ // Draw top-left semicircle
+ push();
+ stroke(218, 165, 32);
+ translate(toggleLeftArc ? startX + rectWidth : startX, (windowHeight - rectHeight) / 2);
+ rotate(-rotationAngle);
+ arc(0, 0, arcSize, arcSize, 3 * PI / 2, 5 * PI / 2);
+ noFill();
+ strokeWeight(5);
+ circle(0, 0, arcSize);
+ pop();
 
   // Draw top-right semicircle
   push();
@@ -78,9 +103,24 @@ function draw() {
   textSize((rectHeight + 3) * scaleFactor * 1.5);
   textAlign(CENTER, CENTER);
   textFont('Helvetica');
-  fill(0);
+  fill(218, 165, 32);
   text('+', windowWidth / 2 + spacing / 2, windowHeight / 2 + (rectHeight / 2) * scaleFactor);
-  }
+   // Draw the circle at the random position
+   fill(154,152,152); // Set the fill color for the circle
+   noStroke();
+   circle(circleX, circleY, 30); // Draw the circle
+ noFill()
+ stroke(154,152,152)
+   circle(circleX, circleY, 50); // Draw the circle
+   line(circleX, circleY, mouseX, mouseY)
+   fill(218, 165, 32); // Set the fill color for the circle
+   noStroke();
+   circle(mouseX, mouseY, 30); // Draw the circle
+
+  
+
+
+}
   
   function drawSemiCircle(radius, x = 0, y = 0) {
   let weight = map(radius, 0, 12 * numSemiCircles, 1, 6);
@@ -99,6 +139,8 @@ function draw() {
   saveCanvas('logo', 'png');
   }
   }
+
+
   
   // Additional function to handle mouse movement
   function mouseMoved() {
