@@ -112,10 +112,28 @@ function draw() {
  noFill()
  stroke(colorPicker.color())
    circle(circleX, circleY, 50); // Draw the circle
+    strokeWeight(1)
    line(circleX, circleY, mouseX, mouseY)
+   stroke(218, 165, 32)
    fill(218, 165, 32); // Set the fill color for the circle
    noStroke();
    circle(mouseX, mouseY, 30); // Draw the circle
+stroke(218, 165, 32)
+strokeWeight(1)
+   line(0,mouseY+ 100, windowWidth, mouseY+ 100)
+
+   line(0,mouseY+ 150, windowWidth, mouseY+150)
+  line(0,mouseY+ 100, windowWidth, mouseY+ 100)
+
+   line(mouseX+ 80,0, mouseX+ 80, windowHeight)
+   line(mouseX- 80,0, mouseX- 80, windowHeight)
+   line(mouseX,0, mouseX, windowHeight)
+ 
+   strokeWeight(4)
+   line(0,mouseY, windowWidth, mouseY)
+  
+ 
+
 
 }
   
